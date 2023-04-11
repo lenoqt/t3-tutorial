@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import Image from "next/image";
 
-const ProfileFeed = (props: { userId; string }) => {
+const ProfileFeed = (props: { userId: string }) => {
   const { data, isLoading } = api.posts.getPostsByUserId.useQuery({
     userId: props.userId,
   });
@@ -16,10 +16,12 @@ const ProfileFeed = (props: { userId; string }) => {
 
   return (
     <div className="flex flex-col">
-      {data.map((fullPost) => <PostView
-        {...fullPost}
-        key={fullPost.post.id}
-      />)}
+      {data.map((fullPost) => (
+        <PostView
+          {...fullPost}
+          key={fullPost.post.id}
+        />
+      ))}
     </div>
   );
 };
@@ -50,7 +52,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
           {`@${data.username ?? ""}`}
         </div>
         <div className="border-b border-slate-400 w-full" />
-      <ProfileFeed userId={data.id}/>
+        <ProfileFeed userId={data.id} />
       </PageLayout>
     </>
   );
